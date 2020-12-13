@@ -1,0 +1,117 @@
+<!doctype html>
+{% load subjects %}
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Student Table</title>
+  </head>
+  <body>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <a class="navbar-brand" href="#">Navbar</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Dropdown
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+              </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          </div>
+        </nav>
+
+        <div class="content">
+        <div class="mt-4 container-fluid">
+        <div class="row justify-content-center">
+            <div class="mt-4 col-md-10">
+            	<h1 class="text-center">Student Table</h1>
+                <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Id</th>
+                          <th scope="col">Student Name</th>
+                          <th scope="col">Teachers</th>
+                            <th scope="col">Subjects</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for i in students %}
+                        <tr>
+                          <th scope="row">1</th>
+                          <th scope="row">{{i.id}}</th>
+                          <td>{{i.student_name}}</td>
+                          <td>{% for j in i.teachers.all %}{{j.name}}, {% endfor %}</td>
+                          <td>{% for k in i.id|distinct_subject %}{{k}}, {% endfor %}</td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+
+                <div class="mt-4">
+                 <h1 class="mt-4 text-center">Api-Description</h1>
+                <div class="mt-4">
+                <b>1. </b><span> Creation of Students, Teachers and assignments should be supported from Django admin site to create update and delete.</span><br>
+                <b class="ml-2">Response: </b><span><a href="/admin/">Admin Panel </a>(Note: When you <a href="admin/core/user/">create user</a> you can choose where this user should be student or teacher whatever you will be choose the roll will be created)</span>
+                <hr>
+                <b>2. </b><span> Create an API that can Get JWT token when valid username and password.</span><br>
+                <b class="ml-2">Response: </b><span><a href="/gettoken/">Get Token</a> (Note: please enter valid username and password)</span><br>
+                 <img class="mt-4 img-fluid" src="{% static 'gettoken.png' %}" alt="">
+                <hr>
+                <b>3. </b><span> Create an API GET student details</span><br>
+                <b class="ml-2">Response: </b><span><a href="{% url 'get_student' %}">Student Detail </a> (Note: First You have to get access token from <a href="/gettoken/">Get Token</a> and pass the token in Authorization after that you can access the api.)</span>
+                  <img class="mt-4 img-fluid" src="{% static 'student_detail.png' %}" alt="">
+                <hr>
+                <b>4. </b><span> Create PATCH API to update subjects of a teacher.</span><br>
+                <b class="ml-2">Response: </b><span><a href="{% url 'update_subject'  %}">Update Subject</a> (Note: Here We are using patch api for updating many to many field of subject and in parameter we have to pass id for filtering the teacher whose subjects we want to update) </span>
+
+                    <img class="mt-4 img-fluid" src="{% static 'update_subject.png' %}" alt="">
+                <hr>
+                <b>5. </b><span>Create a simple report to show below template using Django Templates.</span><br>
+                <b class="ml-2">Response: </b><span><a href="{% url 'table' %}">Student Table</a></span>
+                    <hr>
+                    <h1 class="text-center">That's It. Thank You.</h1>
+                    <hr>
+                    </div>
+                    </div>
+            </div>
+        </div>
+
+    </div>
+        </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
